@@ -17,13 +17,13 @@ Including another URLconf
 print("importing views ...")
 from django.contrib import admin
 from django.urls import path
-from price_bot.views import home_view, about_view
+# from price_bot.views import home_view, about_view
 from . import views
 
 urlpatterns = [
-    path('', home_view, name='home'),
+    # path('', home_view, name='home'),
     path('admin/', admin.site.urls),
-    path('about/', about_view, name='about'),
+    # path('about/', about_view, name='about'),
     path('fetch-village/', views.fetch_village_details, name='fetch_village'),
     path('fetch-nearby/', views.fetch_nearby_restaurants, name='fetch_nearby'),
      path('fetch-busy-times/', views.fetch_busy_times, name='fetch_busy_times'),

@@ -38,6 +38,14 @@
         background-color: #e0f7fa;
         padding: 15px;
         border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #b2ebf2;
+      }
+      .predicted-prices {
+        background-color: #f9fbe7;
+        padding: 15px;
+        border-radius: 5px;
+        border: 1px solid #dce775;
       }
     </style>
   </head>
@@ -47,20 +55,37 @@
 
       <div class="section">
         <h2>Restaurant Information</h2>
-        <p><strong>Address:</strong> {{ village_restaurant.address }}</p>
         <p>
-          <strong>Opening Hours:</strong> {{ village_restaurant.open_times }}
+          <strong>Address:</strong> {{ village_restaurant.address|default:"Not
+          Available" }}
+        </p>
+        <p>
+          <strong>Opening Hours:</strong> {{
+          village_restaurant.open_times|default:"Not Available" }}
         </p>
 
         <h3>Menu:</h3>
-        <ul>
-          {% for item in village_restaurant.menu_items %}
-          <li class="menu-item">
-            <span>{{ item.item }}</span>
-            <span>${{ item.price }}</span>
-          </li>
-          {% endfor %}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if village_restaurant.menu_items %} {% for item in
+            village_restaurant.menu_items %}
+            <tr>
+              <td>{{ item.item }}</td>
+              <td>${{ item.price|floatformat:2 }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="2">No menu items available</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
 
       <div class="section weather-info">
@@ -68,16 +93,29 @@
         <p><strong>Temperature:</strong> {{ temperature }}°C</p>
         <p><strong>Condition:</strong> {{ weather_condition }}</p>
       </div>
-      <div>
+
+      <div class="section predicted-prices">
         <h3>Menu with Predicted Prices:</h3>
-        <ul>
-          {% for item in predicted_prices %}
-          <li class="menu-item">
-            <span>{{ item.item }}</span>
-            <span>${{ item.price }}</span>
-          </li>
-          {% endfor %}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Predicted Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if predicted_prices %} {% for item in predicted_prices %}
+            <tr>
+              <td>{{ item.item }}</td>
+              <td>${{ item.price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %} {% else %}
+            <tr>
+              <td colspan="2">No predicted prices available</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
     </div>
   </body>
